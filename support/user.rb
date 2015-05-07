@@ -16,7 +16,7 @@ class User
     @http.param = {"email" => @email, "password"=> @password}
     @response = @http.post
     if isResponseValid(@response, 200, "Cannot create user #{@email}")
-      parse(@response.body_str)
+      parse(@response.body)
       $LOGGER.info("User #{@email} created.")
       return true   
     else
@@ -35,7 +35,6 @@ class User
   def parse(data)
     @hash = JSON.parse(data)
     @id = @hash['id'] if @hash['id'] != nil
-    # @token = @hash['token'] if @hash['token'] != nil
   end
 
   attr_accessor :email, :password

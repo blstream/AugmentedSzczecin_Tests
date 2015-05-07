@@ -1,4 +1,5 @@
 require 'curb'
+require 'excon'
 require 'json'
 
 class Backend_connection
@@ -9,50 +10,17 @@ class Backend_connection
     @path = nil
   end
 
-  def get
-    #TODO implementation should be updated
-    @http = Curl::Easy.new
-    @http.headers['Content-Type'] = 'application/json'
-    # @http.headers = "X-Api-Auth-Token: #{@token}"
-    @http.url = "#{@api_server}#{@path}?#{@param}"
-    @http.perform
-    return @http
-  end
-
   def post
-    #TODO implementation should be updated
-    @http = Curl::Easy.new
-    @http.headers['Content-Type'] = 'application/json'
-    # if @token != nil
-    #   @http.headers = "X-Api-Auth-Token: #{@token}"
-    # end
-    @http.url = "#{@api_server}#{@path}"
-    @http.post JSON.generate(@param)
-    return @http
-  end
-
-  def put
-    #TODO implementation should be updated
-    @http = Curl::Easy.new
-    @http.headers['Content-Type'] = 'application/json'
-    # if @token != nil
-    #   @http.headers['X-Api-Auth-Token'] = @token
-    # end
-    @http.url = "#{@api_server}#{@path}"
-    @http.put JSON.generate(@param)
-    return @http
+    @http = Excon.new(@api_server+@path, :body => JSON.generate(@param), :headers => {'Content-Type' => 'application/json'})
+    @response = @http.post
+    @response.body
+    return @response
   end
 
   def del
-    #TODO implementation should be updated
-    @http = Curl::Easy.new
-    # if @token != nil
-    #   @http.headers = "X-Api-Auth-Token: #{@token}"
-    # end
-    @http.url = "#{@api_server}#{@path}"
-    @http.delete = true
-    @http.perform
-    return @http
+    @http = Excon.new(@api_server+@path)
+    @response = @http.delete
+    return @response
   end
 
   attr_accessor :api_server, :token, :path, :param, :http
