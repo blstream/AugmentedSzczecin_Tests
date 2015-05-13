@@ -1,10 +1,10 @@
-Feature: Places operations feature
 
+Feature: Places operations feature
 
 Scenario: List all places in system
     Given I can list all places in system
 
- Scenario: Search place
+Scenario: Search place
     Given I can search place by Id "554a6279e4b05304c294d194"
 
 Scenario: Create place

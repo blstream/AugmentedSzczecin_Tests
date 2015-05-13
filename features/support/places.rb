@@ -12,12 +12,13 @@ class Places
     @longitude = longitude
     @category = category
     @http = Backend_connection.new(api_server)
+    puts(@searchId)
   end
 
   def list
     @http.path = "/places"
     @response = @http.get
-    if isResponseValid(@response, 200, "Cannot list places")
+        if isResponseValid(@response, 200, "Cannot list places")
       parseArray(@response.body)
       $LOGGER.info("Listed all places in system")
       return true
@@ -27,8 +28,10 @@ class Places
   end
 
   def search
+  puts(@searchId)
   @http.path = "/places/#{@searchId}"
   @response = @http.get
+  puts(@response.body)
   if isResponseValid(@response, 200, "Cannot find place #{@searchId}")
     parse(@response.body)
     $LOGGER.info("Place #{@searchId} found")
@@ -56,8 +59,8 @@ end
     @http.path = "/places"
     @http.param = {"name" => @name, "location"=>{"latitude" => @latitude, "longitude" => @longitude}}
     @response = @http.post
+    puts(@response.body)
     if isResponseValid(@response, 200, "Cannot create place #{@name}")
-      puts(@response.body)
       parse(@response.body)
       $LOGGER.info("Place #{@name} created.")
       return true   
@@ -69,11 +72,6 @@ end
 
 
 =begin
-
-
-
-
-
 
   def delete
     @http.path = "/users/#{@id}"

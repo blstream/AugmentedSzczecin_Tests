@@ -1,17 +1,13 @@
+
 Feature: People operations feature
 
+@create
+Scenario: Create person
+    Given I can list all people in system
+    #Given I can create person with name "Test" nad surname "Testowy+0" and latitude "53.437827" and longitude "14.53217"
+    Given I can create person with name "Test" and latitude "53.437827" and longitude "14.53217"
+    #Then I can search previously created person - w wyniku metoda zwraca Credentials are required to access this resource.
+    #Then I can update previously created person with name "Test_edit" and latitude "54.437827" and longitude "15.53217"
+    Then I can remove previously created person
+    Given I can list all people in system
 
-#Scenario: List all people in system
-#    Given I can list all people in system
-
-#Scenario: Create person
- #   Given I can create user with email "some_mail+6@gmail.com" and password "12341234"
-
- #Scenario: Search person
- #   Then I can remove previously created user  
-
-#Scenario: Update person
-#    Then I can remove previously created user    
-
-#Scenario: Delete person
-#    Then I can remove previously created user

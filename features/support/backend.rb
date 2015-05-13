@@ -6,35 +6,33 @@ require "base64"
 class Backend_connection
   def initialize(api_server)
     @api_server = api_server
-    @token = nil
+    @token = Base64.urlsafe_encode64('testowy@test.pl:12345678')
     @param = nil
     @path = nil
-    @auth = nil
-    @user = 'some_mail+5@gmail.com'
-    @password = '12341234'
+
   end
 
   def post
-    @auth = Base64.urlsafe_encode64("#{@user} #{@password}")
-    @http = Excon.new(@api_server+@path, :body => JSON.generate(@param), :headers => {'Content-Type' => 'application/json','Authorization' => @auth})
+    @http = Excon.new(@api_server+@path, :body => JSON.generate(@param), :headers => {'Content-Type' => 'application/json','Authorization' => 'Basic#{@token)'})
     @response = @http.post
     @response.body
+    @response.status
     return @response
   end
 
   def get
-    @auth = Base64.urlsafe_encode64("#{@user} #{@password}")
-    @http = Excon.new(@api_server+@path, :headers => {'Content-Type' => 'application/json', 'Authorization' => @auth})
+    @http = Excon.new(@api_server+@path, :headers => {'Content-Type' => 'application/json', 'Authorization' => 'Basic#{@token)'})
     @response = @http.get
     @response.body
+    @response.status
     return @response
   end
 
   def put
-    @auth = Base64.urlsafe_encode64("#{@user} #{@password}")
-    @http = Excon.new(@api_server+@path, :body => JSON.generate(@param), :headers => {'Content-Type' => 'application/json','Authorization' => @auth})
+    @http = Excon.new(@api_server+@path, :body => JSON.generate(@param), :headers => {'Content-Type' => 'application/json','Authorization' => 'Basic#{@token)'})
     @response = @http.put
     @response.body
+    @response.status
     return @response
   end
   

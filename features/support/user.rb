@@ -3,12 +3,12 @@ require 'excon'
 require 'json'
 
 class User
-  def initialize(searchId = nil, email = nil, password = nil, name = "Some User", api_server = $API_SERVER)
+  def initialize(email = nil, password = nil, searchId = nil, name = "Some User", api_server = $API_SERVER)
     @id = nil
-    @searchId = searchId
     @name = name
     @email = email
     @password = password
+    @searchId = searchId
     @http = Backend_connection.new(api_server)
   end
 
@@ -16,6 +16,7 @@ class User
     @http.path = "/users"
     @http.param = {"email" => @email, "password"=> @password}
     @response = @http.post
+    puts(@response.body)
     if isResponseValid(@response, 200, "Cannot create user #{@email}")
       parse(@response.body)
       $LOGGER.info("User #{@email} created.")
