@@ -45,12 +45,12 @@ class People
   end
 
   def search
-  @http.path = "/places/#{@id}"
+  @http.path = "/people/#{@id}"
   @response = @http.get
   puts(@response.body)
-  if isResponseValid(@response, 200, "Cannot find place #{@id}")
+  if isResponseValid(@response, 200, "Cannot find person #{@id}")
     parse(@response.body)
-    $LOGGER.info("Place #{@id} found")
+    $LOGGER.info("Person #{@id} found")
   return true
   else
     return false
