@@ -8,7 +8,6 @@ Feature: Logging to application
 	!Preconditions: 
 	- The device is connected to the internet
 	- Device has active GPS 
-	- Device's input method is set to "Google Keyboard"
 	- Application "Augumented Szczecin" is installed on device
 	
 	Scenario: Succesfull login and logout to application
@@ -22,10 +21,10 @@ Feature: Logging to application
 		- User is logged in
 		- Application shows map in 2D
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test@test.pl" into field with id "email"
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test@test.pl" as email
+		And I enter "tester" as password
+		And I submit login form
 		Then I swipe right
 		Then I touch the "WYLOGUJ SIĘ" text
 
@@ -38,9 +37,9 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test@test.pl" into field with id "email"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test@test.pl" as email
+		And I submit login form
 		Then I wait for "Zaloguj się" to appear
 
 	Scenario: Login to application with empty e-mail field
@@ -52,9 +51,9 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "tester" as password
+		And I submit login form
 		Then I wait for "Zaloguj się" to appear
 
 	Scenario: Login to application with e-mail without "@" 
@@ -66,10 +65,10 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test.com" into field with id "email"
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test.com" as email
+		And I enter "tester" as password
+		And I submit login form
 		Then I wait for "Nieprawidłowy login lub hasło" to appear
 
 	Scenario: Login to application with e-mail without domain
@@ -81,10 +80,10 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test@test" into field with id "email"
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test@test" as email
+		And I enter "tester" as password
+		And I submit login form
 		Then I wait for "Nieprawidłowy login lub hasło" to appear
 
 	Scenario: Login to application with e-mail without domain and "@" sign
@@ -96,10 +95,10 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test" into field with id "email"
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test" as email
+		And I enter "tester" as password
+		And I submit login form
 		Then I wait for "Nieprawidłowy login lub hasło" to appear
 
 	Scenario: Login to application with e-mail with only ".""
@@ -111,12 +110,13 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is not logged in
 		
-		When I touch the "Zaloguj się" text
-		And I enter text "test@test." into field with id "email"
-		And I enter text "tester" into field with id "password"
-		And I touch the "Zaloguj się" text
+		Given I open login form
+		When I enter "test@test." as email
+		And I enter "tester" as password
+		And I submit login form
 		Then I wait for "Nieprawidłowy login lub hasło" to appear
 
+	@Skip
 	Scenario: Skipping login to application and exiting
 		!ID: AUGMENTEDSZN-13-08
 		
@@ -126,6 +126,6 @@ Feature: Logging to application
 		!Pass criteria: 
 		- User is logged as guest
 		
-		When I touch the "Pomiń" text
+		When I press view with id "skipButton"
 		Then I swipe right
-		Then I touch the "WYLOGUJ SIĘ" text
+		Then I touch the "WYJŚCIE" text

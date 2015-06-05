@@ -42,12 +42,12 @@ Feature: Testing miscellaneous features
 		Given I am logged in to application as user
 		When I swipe right
 		And I touch the "W pobliżu" text
-		And I press view with id "ar_switch"
+		And I switch to AR
 		Then I wait for "Augmented Reality został włączony" to appear
 
 	@AR @2D
 	Scenario: Switching from AR to 2D
-		!ID: AUGMENTEDSZN-MISC-02ww
+		!ID: AUGMENTEDSZN-MISC-02
 
 		!Overview:
 		User logs in to app, displays map, switches to AR and then back to map
